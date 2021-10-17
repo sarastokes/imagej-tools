@@ -28,13 +28,8 @@ baselineImage = getTitle();
 
 // Get the average response during the stimulus
 selectWindow(stackTitle);
-run("Z Project...", "start=251 stop=750 projection=[Average Intensity]");
+run("Z Project...", "start=" + stimStart + " stop=" + stimEnd + " projection=[Average Intensity]");
 stimImage = getTitle();
-
-// Get the average response after the stimulus
-selectWindow(stackTitle);
-run("Z Project...", "start=751 stop=1250 projection=[Average Intensity]");
-tailImage = getTitle();
 
 // Subtract the baseline from the response during the stimulus
 imageCalculator("Subtract create 32-bit", stimImage, baselineImage);
@@ -43,6 +38,13 @@ run("Enhance Contrast", "saturated=0.35");
 getMinAndMax(min1, max1);
 
 if (computeOffset) {
+	offsetBegin = stimEnd + 1;
+		
+	// Get the average response after the stimulus
+	selectWindow(stackTitle);
+	run("Z Project...", "start=" + offsetBegin + " stop=" + stimOffset + " projection=[Average Intensity]");
+	tailImage = getTitle();
+	
 	// Subtract the baseline from the response after the stimulus
 	imageCalculator("Subtract create 32-bit", tailImage, baselineImage);
 	offsetImage = getTitle();
@@ -72,6 +74,9 @@ if (computeOffset) {
 	} else {
 		run("Merge Channels...", "c1=[" + offsetImage + "] c5=[" + onsetImage + "] create keep");
 	}
+	// Cleanup
+	selectWindow(tailImage);
+	close();
 } else {
 	finalBound = maxOf(Math.abs(min1), max1);
 	finalMin = -1 * finalBound;
@@ -79,8 +84,6 @@ if (computeOffset) {
 }
 
 // Cleanup
-selectWindow(tailImage);
-close();
 selectWindow(stimImage);
 close();
 selectWindow(baselineImage);
