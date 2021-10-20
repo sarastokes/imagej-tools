@@ -8,6 +8,7 @@ Dialog.create("Stimulus Response");
 	Dialog.addCheckbox("Compute offset:", true);
 	Dialog.addNumber("Offset end:", 1250);
 	Dialog.addCheckbox("Magenta-green colors?", false);
+	Dialog.addNumber("ID", 1);
 Dialog.show();
 
 stimStart = Dialog.getNumber();
@@ -15,6 +16,7 @@ stimEnd = Dialog.getNumber();
 computeOffset = Dialog.getCheckbox();
 stimOffset = Dialog.getNumber();
 whichColors = Dialog.getCheckbox();
+videoID = Dialog.getNumber();
 
 baselineEnd = stimStart - 1;
 
@@ -33,6 +35,7 @@ stimImage = getTitle();
 
 // Subtract the baseline from the response during the stimulus
 imageCalculator("Subtract create 32-bit", stimImage, baselineImage);
+rename("onset_" + videoID);
 onsetImage = getTitle();
 run("Enhance Contrast", "saturated=0.35");
 getMinAndMax(min1, max1);
@@ -47,6 +50,7 @@ if (computeOffset) {
 	
 	// Subtract the baseline from the response after the stimulus
 	imageCalculator("Subtract create 32-bit", tailImage, baselineImage);
+	rename("offset_" + videoID);
 	offsetImage = getTitle();
 	run("Enhance Contrast", "saturated=0.35");
 	getMinAndMax(min2, max2);
@@ -74,6 +78,7 @@ if (computeOffset) {
 	} else {
 		run("Merge Channels...", "c1=[" + offsetImage + "] c5=[" + onsetImage + "] create keep");
 	}
+	rename("Merged_" + videoID);
 	// Cleanup
 	selectWindow(tailImage);
 	close();
