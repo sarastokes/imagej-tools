@@ -38,6 +38,13 @@ function createStackSnapshots() {
     saveAs("PNG", pathToOutputFile);
     close();
 
+	// SUM Z-projection
+    selectWindow(newTitle + ".tif");
+    run("Z Project...", "projection=[Median]");
+    pathToOutputFile = output + File.separator + "MED_" + newTitle + ".png";
+    saveAs("PNG", pathToOutputFile);
+    close();
+
     // SUM Z-projection
     selectWindow(newTitle + ".tif");
     run("Z Project...", "projection=[Sum Slices]");
@@ -51,8 +58,7 @@ function createStackSnapshots() {
     saveAs("Tiff", pathToOutputFile);
     print("Saved stack to: " + pathToOutputFile);
 
-    //if (openNextImage == true) {
-    //	run("Open Next");
-    //}
+	// So you know it's already been translated
+	rename(newTitle + "_TRANSLATED_AND_SAVED.tif");
     print("---");
 }

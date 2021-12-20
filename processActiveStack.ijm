@@ -10,7 +10,11 @@ function processActiveImage() {
 	xStart = indexOf(imageTitle, "_vis_");
 	newTitle = substring(imageTitle, xStart+1, xStart+9);
 
-    // Uncomment this if analyzing LED videos, which have an extra "_fs_"
+	// Uncomment this if analyzing LED videos
+	// xStart = indexOf(imageTitle, "fs#");
+	// newTitle = "vis_led_0" + substring(imageTitle, xStart+3, xStart+6);
+
+    // Uncomment this if analyzing post-LED videos, which just have an extra "_fs_"
 	//xStart = indexOf(imageTitle, "_fs_");
     //newTitle = "vis" + substring(imageTitle, xStart+3, xStart+8);
     
@@ -23,7 +27,7 @@ function processActiveImage() {
 
     // Save the cropped stack
     run("Duplicate...", "title=" + newTitle + " duplicate");
-    pathToOutputFile = output + File.separator + newTitle + ".tif";
+    pathToOutputFile = output + File.separator + "Videos" + File.separator + newTitle + ".tif";
     print("Saving stack to: " + pathToOutputFile);
     saveAs("Tiff", pathToOutputFile);
     
@@ -51,6 +55,14 @@ function processActiveImage() {
     saveAs("PNG", pathToOutputFile);
     close();
 
+    // MED Z-projection (takes a long time, hasn't been useful yet)
+    // selectWindow(newTitle + ".tif");
+    // run("Z Project...", "projection=[Median]");
+    // pathToOutputFile = output + File.separator + "MED_" + newTitle + ".png";
+    // print("Saving image to: " + pathToOutputFile);
+    // saveAs("PNG", pathToOutputFile);
+    // close();
+
     // STD Z-projection
     run("Z Project...", "projection=[Standard Deviation]");
     pathToOutputFile = output + File.separator + "STD_" + newTitle + ".png";
@@ -60,12 +72,9 @@ function processActiveImage() {
 
 	// Close out
     selectWindow(newTitle + ".tif");
-    pathToOutputFile = output + File.separator + "Videos" + File.separator + newTitle + ".tif";
-    print("Saving processed stack to: " + pathToOutputFile);
-    saveAs("Tiff", pathToOutputFile);
     close();
     selectWindow(imageTitle);
-    // close();
+    close();
     print("COMPLETED: " + newTitle + "!");
     print("---");
 }

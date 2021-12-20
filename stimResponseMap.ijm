@@ -1,11 +1,12 @@
-// stimResponse.ijm
+// stimResponseMap.ijm
 // 17Oct2021 - SSP
+// 02Nov2021 - SSP - Removed call to Math package
 
 Dialog.create("Stimulus Response");
 	Dialog.addMessage("Enter stimulus parameters here, in frames:");
 	Dialog.addNumber("Stim Start:", 251);
 	Dialog.addNumber("Stim End:", 750);
-	Dialog.addCheckbox("Compute offset:", true);
+	Dialog.addCheckbox("Compute offset response:", true);
 	Dialog.addNumber("Offset end:", 1250);
 	Dialog.addCheckbox("Magenta-green colors?", false);
 	Dialog.addNumber("ID", 1);
@@ -64,7 +65,7 @@ if (computeOffset) {
 	if (min1 < min2) {
 		finalMin = min1;
 	}
-	finalBound = maxOf(Math.abs(finalMin), finalMax);
+	finalBound = maxOf(abs(finalMin), finalMax);
 	finalMin = -1 * finalBound;
 	
 	selectWindow(onsetImage);
@@ -83,7 +84,7 @@ if (computeOffset) {
 	selectWindow(tailImage);
 	close();
 } else {
-	finalBound = maxOf(Math.abs(min1), max1);
+	finalBound = maxOf(abs(min1), max1);
 	finalMin = -1 * finalBound;
 	setMinAndMax(finalMin, finalBound);
 }
