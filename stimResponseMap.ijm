@@ -1,15 +1,17 @@
 // stimResponseMap.ijm
 // 17Oct2021 - SSP
 // 02Nov2021 - SSP - Removed call to Math package
+// 22Dec2021 - SSP - Default close of image stack
 
 Dialog.create("Stimulus Response");
 	Dialog.addMessage("Enter stimulus parameters here, in frames:");
-	Dialog.addNumber("Stim Start:", 251);
+	Dialog.addNumber("Stim Start:", 250);
 	Dialog.addNumber("Stim End:", 750);
 	Dialog.addCheckbox("Compute offset response:", true);
 	Dialog.addNumber("Offset end:", 1250);
 	Dialog.addCheckbox("Magenta-green colors?", false);
 	Dialog.addNumber("ID", 1);
+	Dialog.addCheckbox("Close video after?", true);
 Dialog.show();
 
 stimStart = Dialog.getNumber();
@@ -18,6 +20,7 @@ computeOffset = Dialog.getCheckbox();
 stimOffset = Dialog.getNumber();
 whichColors = Dialog.getCheckbox();
 videoID = Dialog.getNumber();
+closeVideo = Dialog.getCheckbox();
 
 baselineEnd = stimStart - 1;
 
@@ -94,4 +97,9 @@ selectWindow(stimImage);
 close();
 selectWindow(baselineImage);
 close();
+
+if (closeVideo) {
+	selectWindow(stackTitle);
+	close();
+}
 
