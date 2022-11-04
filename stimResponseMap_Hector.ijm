@@ -16,11 +16,11 @@ Dialog.create("Stimulus Response");
 	Dialog.addMessage("Enter stimulus parameters here, in frames:");
 	Dialog.addNumber("Baseline Start:", 300);
 	Dialog.addNumber("Baseline End", 498);
-	Dialog.addNumber("Up Start:", 1517);
-	Dialog.addNumber("Up End:", 2022);
-    Dialog.addNumber("Down Start:", 2023);
-    Dialog.addNumber("Down End:", 2528);
-	Dialog.addCheckbox("Red-cyan colors?", true);
+	Dialog.addNumber("Up Start:", 2024);
+	Dialog.addNumber("Up End:", 2529);
+    Dialog.addNumber("Down Start:", 2530);
+    Dialog.addNumber("Down End:", 3035);
+	Dialog.addCheckbox("Red-cyan colors?", false);
 	// The 2nd input to addNumber() is the default value that will 
 	// show up in the dialog box, in case you want to edit that
 Dialog.show();

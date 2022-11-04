@@ -4,12 +4,20 @@
 // 22Dec2021 - SSP - Default close of image stack
 
 Dialog.create("Stimulus Response");
+	// For each pixel, the mean during the Baseline frames will be 
+	// subtracted from the mean during the Stim frames. I find dF is
+	// clearer for pixel-wise calculations than dF/F.
+	// The 2nd input to addNumber() is the default value that will 
+	// show up in the dialog box, in case you want to edit that
 	Dialog.addMessage("Enter stimulus parameters here, in frames:");
-	Dialog.addNumber("Stim Start:", 250);
+	Dialog.addNumber("Stim Start:", 500);
 	Dialog.addNumber("Stim End:", 750);
 	Dialog.addCheckbox("Compute offset response:", true);
-	Dialog.addNumber("Offset end:", 1250);
+	Dialog.addNumber("Offset end:", 1000);
 	Dialog.addCheckbox("Magenta-green colors?", false);
+	// Added to the titles of created figures, not necessary but useful 
+	// if you're going to run this multiple times and want to easily
+	// tell the output figures apart.
 	Dialog.addNumber("ID", 1);
 	Dialog.addCheckbox("Close video after?", true);
 Dialog.show();
@@ -60,6 +68,9 @@ if (computeOffset) {
 	getMinAndMax(min2, max2);
 
 	// Match the pixel ranges
+	// Makes dynamic range symmetric around 0 so positive and negative 
+	// changes appear similarly distinct and 0 (no change) corresponds
+	// to the middle value of the LUT/colormap
 	finalMax = max2;
 	if (max1 > max2) {
 		finalMax = max1;
@@ -87,6 +98,9 @@ if (computeOffset) {
 	selectWindow(tailImage);
 	close();
 } else {
+	// Makes dynamic range symmetric around 0 so positive and negative 
+	// changes appear similarly distinct and 0 (no change) corresponds
+	// to the middle value of the LUT/colormap
 	finalBound = maxOf(abs(min1), max1);
 	finalMin = -1 * finalBound;
 	setMinAndMax(finalMin, finalBound);
